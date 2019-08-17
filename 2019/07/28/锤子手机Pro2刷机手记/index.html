@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="锤子手机坚果Pro2刷机1. 刷机准备锤子手机是之前的名称，老罗把公司迁到成都后，锤子在四川方言中是骂人的话，就改成了坚果手机。我手里的手机既是坚果Pro2，在2017年九月发布之后买的。颜值和配置都是杠杠的。   无奈，随着使用，手机逐渐变的卡顿，遂萌发刷机换系统的想法，需要准备的东西如下：  高通 EDL 线（也称为 9008 线、救砖线、工程线），自行上淘宝购买（10几块的就够了，反正就用一">
+<meta name="keywords" content="U3 Pro2,锤子手机,坚果Pro2,刷机,魔趣,TWRP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锤子手机Pro2刷机笔记">
+<meta property="og:url" content="http://alipe2018.github.io/2019/07/28/锤子手机Pro2刷机手记/index.html">
+<meta property="og:site_name" content="小刘哥的笔记本">
+<meta property="og:description" content="锤子手机坚果Pro2刷机1. 刷机准备锤子手机是之前的名称，老罗把公司迁到成都后，锤子在四川方言中是骂人的话，就改成了坚果手机。我手里的手机既是坚果Pro2，在2017年九月发布之后买的。颜值和配置都是杠杠的。   无奈，随着使用，手机逐渐变的卡顿，遂萌发刷机换系统的想法，需要准备的东西如下：  高通 EDL 线（也称为 9008 线、救砖线、工程线），自行上淘宝购买（10几块的就够了，反正就用一">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://alipe2018.github.io/2019/07/28/锤子手机Pro2刷机手记/OS105.png">
+<meta property="og:updated_time" content="2019-08-17T08:27:21.893Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="锤子手机Pro2刷机笔记">
+<meta name="twitter:description" content="锤子手机坚果Pro2刷机1. 刷机准备锤子手机是之前的名称，老罗把公司迁到成都后，锤子在四川方言中是骂人的话，就改成了坚果手机。我手里的手机既是坚果Pro2，在2017年九月发布之后买的。颜值和配置都是杠杠的。   无奈，随着使用，手机逐渐变的卡顿，遂萌发刷机换系统的想法，需要准备的东西如下：  高通 EDL 线（也称为 9008 线、救砖线、工程线），自行上淘宝购买（10几块的就够了，反正就用一">
+<meta name="twitter:image" content="http://alipe2018.github.io/2019/07/28/锤子手机Pro2刷机手记/OS105.png">
+  <link rel="alternate" href="/atom.xml" title="小刘哥的笔记本" type="application/atom+xml">
+  <link rel="canonical" href="http://alipe2018.github.io/2019/07/28/锤子手机Pro2刷机手记/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>锤子手机Pro2刷机笔记 | 小刘哥的笔记本</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小刘哥的笔记本</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Keep It Simple, Stupid !</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://alipe2018.github.io/2019/07/28/锤子手机Pro2刷机手记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alipe">
+      <meta itemprop="description" content="种地，学习，撸代码！">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小刘哥的笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">锤子手机Pro2刷机笔记
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-28 13:10:00" itemprop="dateCreated datePublished" datetime="2019-07-28T13:10:00+08:00">2019-07-28</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-17 16:27:21" itemprop="dateModified" datetime="2019-08-17T16:27:21+08:00">2019-08-17</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/安卓手机/" itemprop="url" rel="index"><span itemprop="name">安卓手机</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="锤子手机坚果Pro2刷机"><a href="#锤子手机坚果Pro2刷机" class="headerlink" title="锤子手机坚果Pro2刷机"></a>锤子手机坚果Pro2刷机</h1><h2 id="1-刷机准备"><a href="#1-刷机准备" class="headerlink" title="1. 刷机准备"></a>1. 刷机准备</h2><p>锤子手机是之前的名称，老罗把公司迁到成都后，锤子在四川方言中是骂人的话，就改成了坚果手机。我手里的手机既是坚果Pro2，在2017年九月发布之后买的。颜值和配置都是杠杠的。</p>
+<img src="/2019/07/28/锤子手机Pro2刷机手记/OS105.png" title="Smartsion Pro2">
+
+<p>无奈，随着使用，手机逐渐变的卡顿，遂萌发刷机换系统的想法，需要准备的东西如下：</p>
+<ol>
+<li><p><strong>高通 EDL 线</strong>（也称为 9008 线、救砖线、工程线），自行上淘宝购买（10几块的就够了，反正就用一次。淘宝上有些卖家会写着「小米工程线」，其实是同一个东西，通用的）；</p>
+</li>
+<li><p>QPST 线刷工具、TWRP 线刷包、底包、魔趣 ROM 等相关资源，详见：</p>
+<ul>
+<li>普通版 (OS105)：<a href="https://bbs.mokeedev.com/t/topic/8109" target="_blank" rel="noopener">坚果手机 Pro 2 (osborn) 底包、TWRP 及相关工具</a></li>
+<li>特别版 (OS103)：<a href="https://bbs.mokeedev.com/t/topic/10674" target="_blank" rel="noopener">坚果手机 Pro 2 特别版 (oxford) 底包、TWRP 及相关工具</a></li>
+</ul>
+</li>
+<li><p>备份重要数据</p>
+</li>
+</ol>
+<p><strong>刷机有风险，请小心谨慎，强烈建议在刷机前备份重要数据如联系人、短信、照片、视频等重要文件。</strong></p>
+<a id="more"></a>
+
+<h2 id="2-开始刷机"><a href="#2-开始刷机" class="headerlink" title="2. 开始刷机"></a>2. 开始刷机</h2><h3 id="2-1-刷入-TWRP-Recover-底层引导"><a href="#2-1-刷入-TWRP-Recover-底层引导" class="headerlink" title="2.1 刷入 TWRP Recover 底层引导"></a>2.1 刷入 TWRP Recover 底层引导</h3><p>TWRP 官网：<a href="https://twrp.me/" target="_blank" rel="noopener">https://twrp.me/</a></p>
+<p>坚果锤子手机官网并没有提供，我们使用的都是各路大神更改过的。</p>
+<p>因为坚果Pro2存在底层设备锁（官方为了系统的安全稳定设置的一道安全工具，可以防止root）我们在刷第三方 Recover 的时候需要整一根9008工程线。</p>
+<p>具体步骤参考油管视频：<a href="https://www.youtube.com/watch?v=sbmU08MqxZA" target="_blank" rel="noopener">https://www.youtube.com/watch?v=sbmU08MqxZA</a></p>
+<p>文件链接: <a href="https://pan.baidu.com/s/1BMNTtnqrRrKmdh5NitqbVA" target="_blank" rel="noopener">https://pan.baidu.com/s/1BMNTtnqrRrKmdh5NitqbVA 1.4K</a> 提取码: 6j4e</p>
+<p>具体步骤如下：</p>
+<ol>
+<li>安装 QPST 工具包中的线刷工具和驱动，打开 Qfil 软件；</li>
+<li>进 Configuration，确保 Device Type 选了 <strong>eMMC</strong>；</li>
+<li>拔掉数据线， 关机。等待手机彻底关机、屏幕不亮为止；</li>
+<li>把 EDL 线插到电脑上，按住 EDL 线上的小开关把另一头插入手机。等待大概 3 秒松手，此时电脑上的 Qfil 应该会识别到 <code>Qualcomm HS-USB QDLoader</code> 设备；</li>
+<li>在 Qfil 里选择 <code>Flat Build</code>；</li>
+<li>点击 Programmer 的那个 Browse，选择线刷包中的 <code>prog_</code> 开头的文件；</li>
+<li>点击 Load XML，选择工具包里的 <code>rawprogram_unsparse.xml</code>；</li>
+<li>它会再次弹出选择框，点<strong>取消</strong>；</li>
+<li>深呼吸；</li>
+<li>点击 Download 按钮，稍等片刻，TWRP 刷入完成；</li>
+<li>长按<strong>音量减</strong>和<strong>电源</strong>键。直到你看到白色锤子的时候松开电源键（继续按住音量减键）；直到你看到 TWRP 的时候才松开所有按键，进入 TWRP，继续进行下面的步骤。</li>
+</ol>
+<p>如果刷机失败，或打算中途放弃，你可以按住<strong>音量加</strong>和<strong>电源</strong>键退出 EDL 模式，回到正常系统。</p>
+<h3 id="2-2-刷入底层包及魔趣系统"><a href="#2-2-刷入底层包及魔趣系统" class="headerlink" title="2.2 刷入底层包及魔趣系统"></a>2.2 刷入底层包及魔趣系统</h3><p>底层包的作用主要是提供系统基带等底层应用。</p>
+<ol>
+<li>进 Wipe（清除），把下面那个条条拖住向右划一下</li>
+<li>返回上一层，进 Install（安装），刷入底包（<code>RADIO-</code> 开头的那个）</li>
+<li>返回上一层（不要重启），再次进安装，刷入魔趣（<code>MK</code> 开头的那个）</li>
+<li>刷完重启，完成</li>
+</ol>
+<p>最新魔趣安卓 9.0 谷歌原生系统下载链接：<a href="https://download.mokeedev.com/?device=osborn" target="_blank" rel="noopener">https://download.mokeedev.com/?device=osborn</a></p>
+<h3 id="2-3-刷入谷歌框架"><a href="#2-3-刷入谷歌框架" class="headerlink" title="2.3 刷入谷歌框架"></a>2.3 刷入谷歌框架</h3><p>有些同志想要体验 Google 服务（需要自备科学上网环境），下载相应文件：</p>
+<p>魔趣论坛 GAPP 下载链接：<a href="https://download.mokeedev.com/extension.html" target="_blank" rel="noopener">https://download.mokeedev.com/extension.html</a></p>
+<ol>
+<li>下载 <a href="https://download.mokeedev.com/extension/file/open_gapps-arm64-9.0-nano-20190727.zip/download" target="_blank" rel="noopener">open_gapps-arm64-9.0-nano-20190727.zip</a> 放到内置存储根目录;</li>
+<li>重启进入恢复模式;</li>
+<li>点击 install 安装；</li>
+<li>重启进入系统；</li>
+<li>搞定。</li>
+</ol>
+<h2 id="3-系统升级"><a href="#3-系统升级" class="headerlink" title="3. 系统升级"></a>3. 系统升级</h2><p>魔趣中心自带了系统在线升级方式，捐赠后可以使用增量升级，相当方便。不过需要注意的是：相应的系统有其对应的系统底包，只有底包与系统一致时才可以升级成功，所以可以是不是去魔趣官网看看是不是又出新的系统底包了。</p>
+<h2 id="4-刷其他版本系统"><a href="#4-刷其他版本系统" class="headerlink" title="4. 刷其他版本系统"></a>4. 刷其他版本系统</h2><p>在使用一段时间后，如果想体验其他版本的系统，可以在 TWRP 引导程序的基础上直接刷：</p>
+<ol>
+<li>下载相应的底包与刷机包</li>
+<li>手机关机状态下按住音量下键/上建 + 电源键，待屏幕点亮后松开电源键，进入 TWRP Recover 引导程序</li>
+<li>选择 Wipe 滑动底部滑动条进行系统双清，。不要重启系统</li>
+<li>返回选择 Install，刷入底包，不要重启系统</li>
+<li>返回选择 Install，刷入系统包即可。</li>
+</ol>
+<h2 id="5-如何刷回原厂-Smartisan-OS-系统"><a href="#5-如何刷回原厂-Smartisan-OS-系统" class="headerlink" title="5. 如何刷回原厂 Smartisan OS 系统"></a>5. 如何刷回原厂 Smartisan OS 系统</h2><ol>
+<li>下载官方卡刷包放到内置存储根目录；</li>
+<li>在 TWRP 里 Wipe，然后刷入卡刷包。</li>
+</ol>
+<p>官方下载链接：<a href="http://dl2.smartisan.com/ota/OSBORN/osborn/6.7.0.1/20190625/6.7.0.1-201906111921-user-ob-cccc8e395b.zip" target="_blank" rel="noopener">6.7.0.1-201906111921-user-ob-cccc8e395b.zip</a></p>
+<h2 id="6-参考链接"><a href="#6-参考链接" class="headerlink" title="6. 参考链接"></a>6. 参考链接</h2><ol>
+<li>刷机教程：<a href="https://bbs.mokeedev.com/t/topic/6377" target="_blank" rel="noopener">https://bbs.mokeedev.com/t/topic/6377</a></li>
+<li>刷机视频：<a href="https://www.youtube.com/watch?v=sbmU08MqxZA" target="_blank" rel="noopener">https://www.youtube.com/watch?v=sbmU08MqxZA</a></li>
+<li>刷机教程：<a href="https://xininn.github.io/post/mo-qu-jian-guo-pro2-shua-ji-jiao-cheng/" target="_blank" rel="noopener">https://xininn.github.io/post/mo-qu-jian-guo-pro2-shua-ji-jiao-cheng/</a></li>
+<li>系统底包：<a href="https://bbs.mokeedev.com/t/topic/281" target="_blank" rel="noopener">https://bbs.mokeedev.com/t/topic/281</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="Alipe wechat" style="width: 200px; max-width: 100%;">
+  <div>扫码关注小刘哥订阅号！</div>
+</div>
+
+      
+        
+      
+        <div id="reward-container">
+  <div>谢谢您的赏识！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wepay.png" alt="Alipe 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="Alipe 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/U3-Pro2/" rel="tag"># U3 Pro2</a>
+            
+              <a href="/tags/锤子手机/" rel="tag"># 锤子手机</a>
+            
+              <a href="/tags/坚果Pro2/" rel="tag"># 坚果Pro2</a>
+            
+              <a href="/tags/刷机/" rel="tag"># 刷机</a>
+            
+              <a href="/tags/魔趣/" rel="tag"># 魔趣</a>
+            
+              <a href="/tags/TWRP/" rel="tag"># TWRP</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/08/16/使用Hexo搭建个人博客/" rel="prev" title="使用Hexo搭建个人博客">
+                  使用Hexo搭建个人博客 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.png"
+      alt="Alipe">
+  <p class="site-author-name" itemprop="name">Alipe</p>
+  <div class="site-description motion-element" itemprop="description">种地，学习，撸代码！</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/alipe2018" title="GitHub &rarr; https://github.com/alipe2018" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:sxliulian2012@gmail.com" title="E-Mail &rarr; mailto:sxliulian2012@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://www.jianshu.com/u/c804c7dcaa2c" title="JianShu &rarr; https://www.jianshu.com/u/c804c7dcaa2c" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>JianShu</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://twitter.com/maize_liu" title="Twitter &rarr; https://twitter.com/maize_liu" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+    
+  </div>
+
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#锤子手机坚果Pro2刷机"><span class="nav-number">1.</span> <span class="nav-text">锤子手机坚果Pro2刷机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-刷机准备"><span class="nav-number">1.1.</span> <span class="nav-text">1. 刷机准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-开始刷机"><span class="nav-number">1.2.</span> <span class="nav-text">2. 开始刷机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-刷入-TWRP-Recover-底层引导"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 刷入 TWRP Recover 底层引导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-刷入底层包及魔趣系统"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 刷入底层包及魔趣系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-刷入谷歌框架"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 刷入谷歌框架</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-系统升级"><span class="nav-number">1.3.</span> <span class="nav-text">3. 系统升级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-刷其他版本系统"><span class="nav-number">1.4.</span> <span class="nav-text">4. 刷其他版本系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-如何刷回原厂-Smartisan-OS-系统"><span class="nav-number">1.5.</span> <span class="nav-text">5. 如何刷回原厂 Smartisan OS 系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-参考链接"><span class="nav-number">1.6.</span> <span class="nav-text">6. 参考链接</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alipe</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a></div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script><script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

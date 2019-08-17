@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="安装使用VNCVNC (Virtual Network Console)是虚拟网络控制台的缩写。它是一款优秀的远程控制工具软件，由著名的 AT&amp;amp;T 的欧洲研究实验室开发的。VNC 是在基于 UNIX 和 Linux 操作系统的免费的开源软件，远程控制能力强大，高效实用，其性能可以和 Windows 和 MAC 中的任何远程控制软件媲美。">
+<meta name="keywords" content="Linux,VNC,SSH,CentOS7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS7安装使用VNC远程桌面">
+<meta property="og:url" content="http://alipe2018.github.io/2019/08/17/CentOS7安装使用VNC远程桌面/index.html">
+<meta property="og:site_name" content="小刘哥的笔记本">
+<meta property="og:description" content="安装使用VNCVNC (Virtual Network Console)是虚拟网络控制台的缩写。它是一款优秀的远程控制工具软件，由著名的 AT&amp;amp;T 的欧洲研究实验室开发的。VNC 是在基于 UNIX 和 Linux 操作系统的免费的开源软件，远程控制能力强大，高效实用，其性能可以和 Windows 和 MAC 中的任何远程控制软件媲美。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/17/CentOS7安装使用VNC远程桌面/VNC-1.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/17/CentOS7安装使用VNC远程桌面/VNC-2.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/17/CentOS7安装使用VNC远程桌面/vnc-3.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/17/CentOS7安装使用VNC远程桌面/vnc-4.png">
+<meta property="og:updated_time" content="2019-08-17T08:28:23.645Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS7安装使用VNC远程桌面">
+<meta name="twitter:description" content="安装使用VNCVNC (Virtual Network Console)是虚拟网络控制台的缩写。它是一款优秀的远程控制工具软件，由著名的 AT&amp;amp;T 的欧洲研究实验室开发的。VNC 是在基于 UNIX 和 Linux 操作系统的免费的开源软件，远程控制能力强大，高效实用，其性能可以和 Windows 和 MAC 中的任何远程控制软件媲美。">
+<meta name="twitter:image" content="http://alipe2018.github.io/2019/08/17/CentOS7安装使用VNC远程桌面/VNC-1.png">
+  <link rel="alternate" href="/atom.xml" title="小刘哥的笔记本" type="application/atom+xml">
+  <link rel="canonical" href="http://alipe2018.github.io/2019/08/17/CentOS7安装使用VNC远程桌面/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>CentOS7安装使用VNC远程桌面 | 小刘哥的笔记本</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小刘哥的笔记本</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Keep It Simple, Stupid !</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://alipe2018.github.io/2019/08/17/CentOS7安装使用VNC远程桌面/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alipe">
+      <meta itemprop="description" content="种地，学习，撸代码！">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小刘哥的笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">CentOS7安装使用VNC远程桌面
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-17 11:36:52 / 修改时间：16:28:23" itemprop="dateCreated datePublished" datetime="2019-08-17T11:36:52+08:00">2019-08-17</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="安装使用VNC"><a href="#安装使用VNC" class="headerlink" title="安装使用VNC"></a>安装使用VNC</h1><p>VNC (Virtual Network Console)是虚拟网络控制台的缩写。它是一款优秀的远程控制工具软件，由著名的 AT&amp;T 的欧洲研究实验室开发的。VNC 是在基于 UNIX 和 Linux 操作系统的免费的开源软件，远程控制能力强大，高效实用，其性能可以和 Windows 和 MAC 中的任何远程控制软件媲美。</p>
+<a id="more"></a>
+
+<p>VNC基本上是由两部分组成：一部分是客户端的应用程序(vncviewer)；另外一部分是服务器端的应用程序(vncserver)。VNC的基本运行原理和一些Windows下的远程控制软件很相像。VNC的服务器端应用程序在UNIX和Linux操作系统中适应性很强，图形用户界面十分友好，看上去和Windows下的软件界面也很类似。在任何安装了客户端的应用程序(vncviewer)的Linux平台的计算机都能十分方便地和安装了服务器端的应用程序(vncserver)的计算机相互连接。另外，服务器端 (vncserver)还内建了Java Web接口，这样用户通过服务器端对其他计算机的操作就能通过Netscape显示出来了，这样的操作过程和显示方式比较直观方便。</p>
+<h2 id="1-在-Linux-服务器上安装配置-VNC-server"><a href="#1-在-Linux-服务器上安装配置-VNC-server" class="headerlink" title="1. 在 Linux 服务器上安装配置 VNC-server"></a>1. 在 Linux 服务器上安装配置 VNC-server</h2><h3 id="1-1-CentOS-下安装桌面环境及-VNC-服务"><a href="#1-1-CentOS-下安装桌面环境及-VNC-服务" class="headerlink" title="1.1 CentOS 下安装桌面环境及 VNC 服务"></a>1.1 CentOS 下安装桌面环境及 VNC 服务</h3><p>vnc 服务依赖于桌面环境的运行，CentOS7 默认最小安装是不带桌面环境的，所以安装 VNC 之前需要首先安装桌面环境，GNOME 或者 KDE 均可。</p>
+<p>我们以安装 “GNOME Desktop” 桌面环境为例安装 GNOME 桌面环境。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 列出可安装的group</span></span><br><span class="line">$ sudo yum grouplist</span><br></pre></td></tr></table></figure>
+
+<p><img src="VNC-1.png" alt="Grouplist"></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 安装 GNOME 桌面环境</span></span><br><span class="line">$ sudo yum groupinstall <span class="string">"GNOME Desktop"</span></span><br><span class="line"><span class="comment">## 设置默认启动方式为界面启动</span></span><br><span class="line">$ sudo ln -sf /lib/systemd/system/graphical.target /etc/systemd/system/default.target</span><br><span class="line"><span class="comment">## 重启服务器</span></span><br><span class="line">$ sudo reboot</span><br></pre></td></tr></table></figure>
+
+<p>注意：对于已经安装桌面环境的 CentOS7 可以不做处理。</p>
+<p>确认桌面环境安装完成后, 安装 VNC 服务端。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 安装 vnc-server</span></span><br><span class="line">$ sudo yum install tigervnc tigervnc-server</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-配置-vnc-server"><a href="#1-2-配置-vnc-server" class="headerlink" title="1.2 配置 vnc-server"></a>1.2 配置 vnc-server</h3><h4 id="1-2-1-拷贝配置文件"><a href="#1-2-1-拷贝配置文件" class="headerlink" title="1.2.1 拷贝配置文件"></a>1.2.1 拷贝配置文件</h4><p>安装完成后开始配置, 将模板配置文件拷贝至配置文件目录下 <code>/etc/systemd/system/</code> , 如果是多用户，则每个用户拷贝一份，其中 <code>@:1.service</code> 中的数字 <code>1</code> 对应 VNC 服务端口 <code>5901</code> , 数字 <code>2</code> 对应端口 <code>5902</code> 根据自己需求设置即可。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 复制配置模板文件</span></span><br><span class="line">$ sudo cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:1.service</span><br><span class="line"><span class="comment">## 编辑配置文件</span></span><br><span class="line">$ sudo vim /etc/systemd/system/vncserver@:1.service</span><br></pre></td></tr></table></figure>
+
+<p>配置文件（<code>/etc/systemd/system/vncserver@:1.service</code>）内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"># The vncserver service unit file</span><br><span class="line">#</span><br><span class="line"># Quick HowTo:</span><br><span class="line"># 1. Copy this file to /etc/systemd/system/vncserver@.service</span><br><span class="line"># 2. Replace &lt;USER&gt; with the actual user name and edit vncserver</span><br><span class="line">#    parameters appropriately</span><br><span class="line">#    (ExecStart=/usr/sbin/runuser -l &lt;USER&gt; -c &quot;/usr/bin/vncserver %i&quot;</span><br><span class="line">#     PIDFile=/home/&lt;USER&gt;/.vnc/%H%i.pid)</span><br><span class="line"># 3. Run `systemctl daemon-reload`</span><br><span class="line"># 4. Run `systemctl enable vncserver@:&lt;display&gt;.service`</span><br><span class="line">#</span><br><span class="line"># DO NOT RUN THIS SERVICE if your local area network is</span><br><span class="line"># untrusted!  For a secure way of using VNC, you should</span><br><span class="line"># limit connections to the local host and then tunnel from</span><br><span class="line"># the machine you want to view VNC on (host A) to the machine</span><br><span class="line"># whose VNC output you want to view (host B)</span><br><span class="line">#</span><br><span class="line"># [user@hostA ~]$ ssh -v -C -L 590N:localhost:590M hostB</span><br><span class="line">#</span><br><span class="line"># this will open a connection on port 590N of your hostA to hostB&apos;s port 590M</span><br><span class="line"># (in fact, it ssh-connects to hostB and then connects to localhost (on hostB).</span><br><span class="line"># See the ssh man page for details on port forwarding)</span><br><span class="line">#</span><br><span class="line"># You can then point a VNC client on hostA at vncdisplay N of localhost and with</span><br><span class="line"># the help of ssh, you end up seeing what hostB makes available on port 590M</span><br><span class="line">#</span><br><span class="line"># Use &quot;-nolisten tcp&quot; to prevent X connections to your VNC server via TCP.</span><br><span class="line">#</span><br><span class="line"># Use &quot;-localhost&quot; to prevent remote VNC clients connecting except when</span><br><span class="line"># doing so through a secure tunnel.  See the &quot;-via&quot; option in the</span><br><span class="line"># `man vncviewer&apos; manual page.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Remote desktop service (VNC)</span><br><span class="line">After=syslog.target network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line"></span><br><span class="line"># Clean any existing files in /tmp/.X11-unix environment</span><br><span class="line">ExecStartPre=/bin/sh -c &apos;/usr/bin/vncserver -kill %i &gt; /dev/null 2&gt;&amp;1 || :&apos;</span><br><span class="line">ExecStart=/usr/sbin/runuser -l &lt;USER&gt; -c &quot;/usr/bin/vncserver %i&quot;</span><br><span class="line">PIDFile=/home/&lt;USER&gt;/.vnc/%H%i.pid</span><br><span class="line">ExecStop=/bin/sh -c &apos;/usr/bin/vncserver -kill %i &gt; /dev/null 2&gt;&amp;1 || :&apos;</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-2-修改配置文件"><a href="#1-2-2-修改配置文件" class="headerlink" title="1.2.2 修改配置文件"></a>1.2.2 修改配置文件</h4><p>将配置文件中 <code>&lt;USER&gt;</code> 全部替换为自己的用户名，例如用户为 <code>sam</code> , 则修改为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ExecStart=/usr/sbin/runuser -l sam -c &quot;/usr/bin/vncserver %i&quot;</span><br><span class="line">PIDFile=/home/sam/.vnc/%H%i.pid</span><br></pre></td></tr></table></figure>
+
+<p>如果是使用 <code>root</code> 账户登录，则修改为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ExecStart=/usr/sbin/runuser -l root -c &quot;/usr/bin/vncserver %i&quot;</span><br><span class="line">PIDFile=/root/.vnc/%H%i.pid</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-3-重新加载配置文件"><a href="#1-2-3-重新加载配置文件" class="headerlink" title="1.2.3 重新加载配置文件"></a>1.2.3 重新加载配置文件</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 重新加载 systemctl 文件</span></span><br><span class="line">$ sudo systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-4-添加防火墙例外"><a href="#1-2-4-添加防火墙例外" class="headerlink" title="1.2.4 添加防火墙例外"></a>1.2.4 添加防火墙例外</h4><p>对于是默认防火墙（<code>firewall</code>）的，可以使用 <code>firewall-cmd</code> 进行配置：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 方法一：添加 VNC 服务例外</span></span><br><span class="line">$ sudo firewall-cmd --permanent --add-service vnc-server</span><br><span class="line"><span class="comment">## 方法二： 添加 5901 端口例外</span></span><br><span class="line">$ sudo firewall-cmd --permanent --add-port 5091-5902/tcp</span><br><span class="line"><span class="comment">## 方法三：关闭并禁用防火墙（不推荐）</span></span><br><span class="line">$ sudo systemctl stop firewalld.service</span><br><span class="line">$ sudo systemctl <span class="built_in">disable</span> firewalld.service</span><br><span class="line"><span class="comment">## 重启防火墙（适用于方法一和二）</span></span><br><span class="line">$ sudo systemctl restart firewalld.service</span><br></pre></td></tr></table></figure>
+
+<p>对于防护墙为 <code>iptable</code> 的，修改相应的配置文件，添加 VNC 例外：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 编辑配置文件</span></span><br><span class="line">$ sudo vim /etc/sysconfig/iptables</span><br></pre></td></tr></table></figure>
+
+<p>在合适的位置添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 5901:5902 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p>然后重启防火墙:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 重启防火墙</span></span><br><span class="line">$ sudo service iptables restart</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-5-修改-VNC-连接密码"><a href="#1-2-5-修改-VNC-连接密码" class="headerlink" title="1.2.5 修改 VNC 连接密码"></a>1.2.5 修改 VNC 连接密码</h4><p>修改相应账户的连接密码：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vncpasswd sam</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-6-启动-VNC-并设置开机启动"><a href="#1-2-6-启动-VNC-并设置开机启动" class="headerlink" title="1.2.6 启动 VNC 并设置开机启动"></a>1.2.6 启动 VNC 并设置开机启动</h4><p>为了方便连接，可以设置 VNC 开机启动：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 设置开机启动</span></span><br><span class="line">$ sudo systemctl <span class="built_in">enable</span> vncserver@:1.service</span><br><span class="line"><span class="comment">## 启动 VNC 服务</span></span><br><span class="line">$ sudo systemctl start vncserver@:1.service</span><br><span class="line"><span class="comment">## 查看 VNC 服务运行情况</span></span><br><span class="line">$ sudo systemctl status vncserver@:1.service</span><br><span class="line"><span class="comment">## 停止 VNC 服务</span></span><br><span class="line">$ sudo systemctl stop vncserver@:1.service</span><br></pre></td></tr></table></figure>
+
+<p>VNC 配置完成并启动后就可以使用本地客户机进行远程连接了。</p>
+<h2 id="2-在-Windows-下安装配置-VNC-服务"><a href="#2-在-Windows-下安装配置-VNC-服务" class="headerlink" title="2. 在 Windows 下安装配置 VNC 服务"></a>2. 在 Windows 下安装配置 VNC 服务</h2><p>下载相应版本安装 TightVNC ：</p>
+<ul>
+<li><a href="https://www.tightvnc.com/download/2.8.23/tightvnc-2.8.23-gpl-setup-64bit.msi" target="_blank" rel="noopener"><strong>Installer for Windows (64-bit)</strong></a> (2,232,320 bytes)</li>
+<li><a href="https://www.tightvnc.com/download/2.8.23/tightvnc-2.8.23-gpl-setup-32bit.msi" target="_blank" rel="noopener"><strong>Installer for Windows (32-bit)</strong></a> (2,035,712 bytes)</li>
+</ul>
+<p>安装完成后按照指示进行配置即可。</p>
+<h2 id="3-远程连接服务器"><a href="#3-远程连接服务器" class="headerlink" title="3. 远程连接服务器"></a>3. 远程连接服务器</h2><h3 id="3-1-Windows-下远程连接"><a href="#3-1-Windows-下远程连接" class="headerlink" title="3.1 Windows 下远程连接"></a>3.1 Windows 下远程连接</h3><p>Window 下使用 TightVNC-Viewer 进行连接：</p>
+<p><img src="VNC-2.png" alt="Start VNC Viewer"></p>
+<p>填写 IP 及 端口号：</p>
+<p><img src="vnc-3.png" alt="VNC Connect"></p>
+<p>输入配置的 VNC 连接密码即可远程控制服务器：</p>
+<p><img src="vnc-4.png" alt="Viewer"></p>
+<h3 id="3-2-Mac-下远程连接"><a href="#3-2-Mac-下远程连接" class="headerlink" title="3.2 Mac 下远程连接"></a>3.2 Mac 下远程连接</h3><p>Mac OS 下有天然优势，在 safari 浏览器地址栏中输入IP地址及端口即可：<code>vnc://192.168.3.2:5901</code>，这里需要将 IP 地址及端口更换为自己的 IP 及端口。</p>
+<h3 id="3-3-Linux-下远程连接"><a href="#3-3-Linux-下远程连接" class="headerlink" title="3.3 Linux 下远程连接"></a>3.3 Linux 下远程连接</h3><p>待续~</p>
+<h2 id="4-参考资料"><a href="#4-参考资料" class="headerlink" title="4. 参考资料"></a>4. 参考资料</h2><ol>
+<li><p><a href="http://www.baike.com/wiki/VNC" target="_blank" rel="noopener">http://www.baike.com/wiki/VNC</a></p>
+</li>
+<li><p><a href="https://my.oschina.net/huhaoren/blog/497394" target="_blank" rel="noopener">https://my.oschina.net/huhaoren/blog/497394</a></p>
+</li>
+<li><p><a href="https://www.digitalocean.com/community/questions/couldn-t-start-vnc-server" target="_blank" rel="noopener">https://www.digitalocean.com/community/questions/couldn-t-start-vnc-server</a></p>
+</li>
+<li><p><a href="https://vircloud.net/linux/centos7-win-vnc.html" target="_blank" rel="noopener">CentOS7 安装桌面环境并配置 VNC 远程连接</a></p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="Alipe wechat" style="width: 200px; max-width: 100%;">
+  <div>扫码关注小刘哥订阅号！</div>
+</div>
+
+      
+        
+      
+        <div id="reward-container">
+  <div>谢谢您的赏识！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wepay.png" alt="Alipe 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="Alipe 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+            
+              <a href="/tags/VNC/" rel="tag"># VNC</a>
+            
+              <a href="/tags/SSH/" rel="tag"># SSH</a>
+            
+              <a href="/tags/CentOS7/" rel="tag"># CentOS7</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/08/16/使用Hexo搭建个人博客/" rel="next" title="使用Hexo搭建个人博客">
+                  <i class="fa fa-chevron-left"></i> 使用Hexo搭建个人博客
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/08/17/使用LAI评估基因组组装质量/" rel="prev" title="使用LTR装配指数(LAI)评估基因组组装质量">
+                  使用LTR装配指数(LAI)评估基因组组装质量 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.png"
+      alt="Alipe">
+  <p class="site-author-name" itemprop="name">Alipe</p>
+  <div class="site-description motion-element" itemprop="description">种地，学习，撸代码！</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/alipe2018" title="GitHub &rarr; https://github.com/alipe2018" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:sxliulian2012@gmail.com" title="E-Mail &rarr; mailto:sxliulian2012@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://www.jianshu.com/u/c804c7dcaa2c" title="JianShu &rarr; https://www.jianshu.com/u/c804c7dcaa2c" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>JianShu</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://twitter.com/maize_liu" title="Twitter &rarr; https://twitter.com/maize_liu" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+    
+  </div>
+
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装使用VNC"><span class="nav-number">1.</span> <span class="nav-text">安装使用VNC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-在-Linux-服务器上安装配置-VNC-server"><span class="nav-number">1.1.</span> <span class="nav-text">1. 在 Linux 服务器上安装配置 VNC-server</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-CentOS-下安装桌面环境及-VNC-服务"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 CentOS 下安装桌面环境及 VNC 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-配置-vnc-server"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 配置 vnc-server</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-拷贝配置文件"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">1.2.1 拷贝配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-修改配置文件"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">1.2.2 修改配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-3-重新加载配置文件"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">1.2.3 重新加载配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-4-添加防火墙例外"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">1.2.4 添加防火墙例外</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-5-修改-VNC-连接密码"><span class="nav-number">1.1.2.5.</span> <span class="nav-text">1.2.5 修改 VNC 连接密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-6-启动-VNC-并设置开机启动"><span class="nav-number">1.1.2.6.</span> <span class="nav-text">1.2.6 启动 VNC 并设置开机启动</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-在-Windows-下安装配置-VNC-服务"><span class="nav-number">1.2.</span> <span class="nav-text">2. 在 Windows 下安装配置 VNC 服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-远程连接服务器"><span class="nav-number">1.3.</span> <span class="nav-text">3. 远程连接服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-Windows-下远程连接"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 Windows 下远程连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Mac-下远程连接"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 Mac 下远程连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-Linux-下远程连接"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 Linux 下远程连接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-参考资料"><span class="nav-number">1.4.</span> <span class="nav-text">4. 参考资料</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alipe</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a></div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script><script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

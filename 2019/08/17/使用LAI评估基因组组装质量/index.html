@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="使用LTR装配指数(LAI)评估基因组组装质量基因组组装完成之后，就需要对最后的质量进行评估。我们希望得到的 contig 文件中，每个 contig 都能足够的长，能够有一个完整的基因结构，归纳一下就是3C原则:  连续性(Contiguity): 得到的contig要足够的长 正确性(Correctness): 组装的contig错误率要低 完整性(Completeness)：尽可能包含整个原">
+<meta name="keywords" content="BioInformatics,Reference,Genome,LAI,LTR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用LTR装配指数(LAI)评估基因组组装质量">
+<meta property="og:url" content="http://alipe2018.github.io/2019/08/17/使用LAI评估基因组组装质量/index.html">
+<meta property="og:site_name" content="小刘哥的笔记本">
+<meta property="og:description" content="使用LTR装配指数(LAI)评估基因组组装质量基因组组装完成之后，就需要对最后的质量进行评估。我们希望得到的 contig 文件中，每个 contig 都能足够的长，能够有一个完整的基因结构，归纳一下就是3C原则:  连续性(Contiguity): 得到的contig要足够的长 正确性(Correctness): 组装的contig错误率要低 完整性(Completeness)：尽可能包含整个原">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/17/使用LAI评估基因组组装质量/lai-1.jpg">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/17/使用LAI评估基因组组装质量/lai-2.png">
+<meta property="og:updated_time" content="2019-08-17T08:29:39.719Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用LTR装配指数(LAI)评估基因组组装质量">
+<meta name="twitter:description" content="使用LTR装配指数(LAI)评估基因组组装质量基因组组装完成之后，就需要对最后的质量进行评估。我们希望得到的 contig 文件中，每个 contig 都能足够的长，能够有一个完整的基因结构，归纳一下就是3C原则:  连续性(Contiguity): 得到的contig要足够的长 正确性(Correctness): 组装的contig错误率要低 完整性(Completeness)：尽可能包含整个原">
+<meta name="twitter:image" content="http://alipe2018.github.io/2019/08/17/使用LAI评估基因组组装质量/lai-1.jpg">
+  <link rel="alternate" href="/atom.xml" title="小刘哥的笔记本" type="application/atom+xml">
+  <link rel="canonical" href="http://alipe2018.github.io/2019/08/17/使用LAI评估基因组组装质量/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>使用LTR装配指数(LAI)评估基因组组装质量 | 小刘哥的笔记本</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小刘哥的笔记本</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Keep It Simple, Stupid !</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://alipe2018.github.io/2019/08/17/使用LAI评估基因组组装质量/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alipe">
+      <meta itemprop="description" content="种地，学习，撸代码！">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小刘哥的笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">使用LTR装配指数(LAI)评估基因组组装质量
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-17 13:15:01 / 修改时间：16:29:39" itemprop="dateCreated datePublished" datetime="2019-08-17T13:15:01+08:00">2019-08-17</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Bioinformatic/" itemprop="url" rel="index"><span itemprop="name">Bioinformatic</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="使用LTR装配指数-LAI-评估基因组组装质量"><a href="#使用LTR装配指数-LAI-评估基因组组装质量" class="headerlink" title="使用LTR装配指数(LAI)评估基因组组装质量"></a>使用LTR装配指数(LAI)评估基因组组装质量</h1><p>基因组组装完成之后，就需要对最后的质量进行评估。我们希望得到的 contig 文件中，每个 contig 都能足够的长，能够有一个完整的基因结构，归纳一下就是3C原则:</p>
+<ol>
+<li>连续性(Contiguity): 得到的contig要足够的长</li>
+<li>正确性(Correctness): 组装的contig错误率要低</li>
+<li>完整性(Completeness)：尽可能包含整个原始序列</li>
+</ol>
+<p>但是这三条原则其实是相互矛盾的，连续性越高，就意味着要处理更多的模糊节点，会导致整体错误率上升，为了保证完全的正确，那么就会导致contig非常的零碎。此外，这三条原则也比较定性，我们需要更加定量的数值衡量，目前比较常用的标准是 N50 和 BUSCO/CEGMA。</p>
+<p>那有没有其他方法可以用来评估基因组装的质量呢，文章 “<a href="https://academic.oup.com/nar/article/46/21/e126/5068908" target="_blank" rel="noopener">Assessing genome assembly quality using the LTR Assembly Index (LAI)</a>“ 提出了用长末端重复序列来评估基因组完整度，因为LTR比较难以组装，于是就用作评估结果的一个参数了。</p>
+<img src="/2019/08/17/使用LAI评估基因组组装质量/lai-1.jpg" title="LTR 结构示意图">
+
+
+<a id="more"></a>
+
+<p>LTR（long terminal repeat）即长末端重复序列，其长度从 100bp 到 5kb 不等。是存在于LTR反转录转座子（LTRs）两侧翼的长末端重复序列。LTR反转录转座子(LTR-RTs)和非LTR反转录转座子(non-LTR)都是真核生物中一类可移动因子，因其转座需经由RNA介导的反转录过程而得名。LTR反转录转座子一高拷贝在生物界广泛分布，可以通过纵向和横向分别在世代之间和不种间进行传递，同一家族的反转录转座子具有高度的异质性。</p>
+<p>LAI 指数就是完整 LTR 反转座子序列占总 LTR 序列长度的比值。 </p>
+<p>计算 LAI 的软件主要是 <a href="https://github.com/oushujun/LTR_retriever" target="_blank" rel="noopener">LTR_retriever</a> 软件, 该软件可用于识别长末端重复反转录转座子。LTR_retriever 不是一个独立的工具，他的主要作用就是整合 LTRharvest, LTR_FINDER 和/或 MGEScan_LTR 的结果，过滤其中的假阳性 LTR-RT，得到高质量的 LTR-RT 库。</p>
+<h2 id="1-软件安装"><a href="#1-软件安装" class="headerlink" title="1. 软件安装"></a>1. 软件安装</h2><h3 id="1-1-快速安装"><a href="#1-1-快速安装" class="headerlink" title="1.1 快速安装"></a>1.1 快速安装</h3><p>参考官方安装说明，可以使用 <code>conde</code> 快速安装相关依赖及软件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">conda create -n LTR_retriever</span><br><span class="line"><span class="built_in">source</span> activate LTR_retriever</span><br><span class="line">conda install -c conda-forge perl perl-text-soundex</span><br><span class="line">conda install -c bioconda <span class="built_in">cd</span>-hit</span><br><span class="line">conda install -c bioconda/label/cf201901 repeatmasker</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/oushujun/LTR_retriever.git</span><br><span class="line">./LTR_retriever/LTR_retriever -h</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-标准安装"><a href="#1-2-标准安装" class="headerlink" title="1.2 标准安装"></a>1.2 标准安装</h3><p>LTR_retriever 依赖于其他软件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. makeblastdb, blastn, and blastx in the BLAST+ package (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/),</span><br><span class="line">2. cd-hit-est in the CDHIT package (http://weizhongli-lab.org/cd-hit/) OR blastclust in the BLAST package (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy/2.2.25/),</span><br><span class="line">3. hmmsearch in the HMMER package (http://hmmer.org/; v3.1b2 or higher), and</span><br><span class="line">4. RepeatMasker (http://www.repeatmasker.org/).</span><br></pre></td></tr></table></figure>
+
+<p>下载安装 <code>LTR_retriever</code> 软件及依赖软件后，编辑 <code>LTR_retriever/paths</code> 文件，添加各依赖文件的路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">BLAST+=/your_path_to/BLAST+2.2.30/bin/</span><br><span class="line">RepeatMasker=/your_path_to/RepeatMasker4.0.0/</span><br><span class="line">HMMER=/your_path_to/HMMER3.1b2/bin/</span><br><span class="line">CDHIT=/your_path_to/CDHIT4.6.1/</span><br><span class="line">BLAST=/your_path_to/BLAST2.2.26/bin/ #not required if CDHIT provided</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-LTR-retriever-的使用"><a href="#2-LTR-retriever-的使用" class="headerlink" title="2. LTR_retriever 的使用"></a>2. LTR_retriever 的使用</h2><h3 id="2-1-找到基因组-LTR"><a href="#2-1-找到基因组-LTR" class="headerlink" title="2.1 找到基因组 LTR"></a>2.1 找到基因组 LTR</h3><p>第一步首先需要找到基因组总的 LTR，使用 LTR_FINDER 程序进行查找：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ ltr_finder -D 20000 -d 1000 -L 700 -l 100 -p 20 -C -M 0.9 assembled.fa &gt;out.finder.scn</span><br><span class="line"></span><br><span class="line">-D:  5<span class="string">'和3'</span>LTR之间的最大距离，</span><br><span class="line">-d:  5<span class="string">'和3'</span>LTR之间的最小距离，</span><br><span class="line">-L:  5<span class="string">'和3'</span>LTR序列的最大长度，</span><br><span class="line">-l:  5<span class="string">'和3'</span>LTR序列的最小长度，</span><br><span class="line">-p:  完全匹配配对的最小长度，</span><br><span class="line">-C:  检测中心粒(centriole)删除高度重复区域，</span><br><span class="line">-M:  最小的LTR相似度</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-生成非冗余LTR-RT文库"><a href="#2-2-生成非冗余LTR-RT文库" class="headerlink" title="2.2 生成非冗余LTR-RT文库"></a>2.2 生成非冗余LTR-RT文库</h3><p>第二步运行LTR_retriever根据LTR_FINDER的输出识别LTR-RT，生成非冗余LTR-RT文库，可用于基因组注释.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ LTR_retriever -threads 4 -genome assembled.fa -infinder out.finder.scn</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-计算-LAI"><a href="#2-3-计算-LAI" class="headerlink" title="2.3 计算 LAI"></a>2.3 计算 LAI</h3><p>依据第二三步的结果进行 LAI 的计算：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LAI -t 10 -genome assembled.fa -intact out.fa.pass.list -all out.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-项目分析"><a href="#3-项目分析" class="headerlink" title="3. 项目分析"></a>3. 项目分析</h2><p>通过三代基因组组装，我们组装出了自己参考物种的基因组，maize_GF.S.fa, 然后使用 LAI 评估组装质量。计算参数参考严建兵老师 NG 文章(热带玉米基因组)的程序参数计算。</p>
+<p>经过计算，得到 LAI 为 ～ </p>
+<p>与玉米参考基因组比对，LAI 装配指数达到中等水平，基因组可用。</p>
+<img src="/2019/08/17/使用LAI评估基因组组装质量/lai-2.png" title="LAI From NG">
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li>LAI:评估基因组质量一个标准 <a href="https://www.jianshu.com/p/7d794d22e0a0" target="_blank" rel="noopener">https://www.jianshu.com/p/7d794d22e0a0</a></li>
+<li>LTR_retriever: 一个更加准的LTR整合分析工具 <a href="https://www.jianshu.com/p/f962d5c40fdf" target="_blank" rel="noopener">https://www.jianshu.com/p/f962d5c40fdf</a></li>
+<li>Github LTR_retriever: <a href="https://github.com/oushujun/LTR_retriever" target="_blank" rel="noopener">https://github.com/oushujun/LTR_retriever</a></li>
+<li>严建兵老师热带玉米组装: <a href="https://www.nature.com/articles/s41588-019-0427-6" target="_blank" rel="noopener">https://www.nature.com/articles/s41588-019-0427-6</a></li>
+<li>LAI 参考文献: <a href="https://doi:10.1093/nar/gky730" target="_blank" rel="noopener">doi:10.1093/nar/gky730</a></li>
+<li>LTR_retriever 参考文献: <a href="https://doi:10.1104/pp.17.01310" target="_blank" rel="noopener">doi:10.1104/pp.17.01310</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="Alipe wechat" style="width: 200px; max-width: 100%;">
+  <div>扫码关注小刘哥订阅号！</div>
+</div>
+
+      
+        
+      
+        <div id="reward-container">
+  <div>谢谢您的赏识！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wepay.png" alt="Alipe 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="Alipe 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/BioInformatics/" rel="tag"># BioInformatics</a>
+            
+              <a href="/tags/Reference/" rel="tag"># Reference</a>
+            
+              <a href="/tags/Genome/" rel="tag"># Genome</a>
+            
+              <a href="/tags/LAI/" rel="tag"># LAI</a>
+            
+              <a href="/tags/LTR/" rel="tag"># LTR</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/08/17/CentOS7安装使用VNC远程桌面/" rel="next" title="CentOS7安装使用VNC远程桌面">
+                  <i class="fa fa-chevron-left"></i> CentOS7安装使用VNC远程桌面
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.png"
+      alt="Alipe">
+  <p class="site-author-name" itemprop="name">Alipe</p>
+  <div class="site-description motion-element" itemprop="description">种地，学习，撸代码！</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/alipe2018" title="GitHub &rarr; https://github.com/alipe2018" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:sxliulian2012@gmail.com" title="E-Mail &rarr; mailto:sxliulian2012@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://www.jianshu.com/u/c804c7dcaa2c" title="JianShu &rarr; https://www.jianshu.com/u/c804c7dcaa2c" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>JianShu</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://twitter.com/maize_liu" title="Twitter &rarr; https://twitter.com/maize_liu" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+    
+  </div>
+
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用LTR装配指数-LAI-评估基因组组装质量"><span class="nav-number">1.</span> <span class="nav-text">使用LTR装配指数(LAI)评估基因组组装质量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-软件安装"><span class="nav-number">1.1.</span> <span class="nav-text">1. 软件安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-快速安装"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 快速安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-标准安装"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 标准安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-LTR-retriever-的使用"><span class="nav-number">1.2.</span> <span class="nav-text">2. LTR_retriever 的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-找到基因组-LTR"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 找到基因组 LTR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-生成非冗余LTR-RT文库"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 生成非冗余LTR-RT文库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-计算-LAI"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 计算 LAI</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-项目分析"><span class="nav-number">1.3.</span> <span class="nav-text">3. 项目分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">1.4.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alipe</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a></div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script><script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>
