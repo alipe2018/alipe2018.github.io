@@ -566,5 +566,30 @@
 
 
   
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'Wl0MFUr8GDL0iD0rre0tW0g9-gzGzoHsz',
+    appKey: '64z8doJMJbu17EYYozth1J4P',
+    placeholder: '支持 MarkDown， 请勿添加与本话题无关的评论！',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
+
 </body>
 </html>

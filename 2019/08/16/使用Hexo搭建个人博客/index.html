@@ -291,6 +291,8 @@
           
 
           
+  
+  
 
         </div>
       </header>
@@ -307,7 +309,7 @@
 <p>git 下载链接: <a href="https://git-scm.com/" target="_blank" rel="noopener">https://git-scm.com/</a></p>
 <a id="more"></a>
 
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ## Step 1 install node.js with nvm</span><br><span class="line"><span class="meta">$</span> # curl https://raw.github.com/creationix/nvm/v0.33.11/install.sh | sh</span><br><span class="line"><span class="meta">$</span> wget -qO- https://raw.github.com/creationix/nvm/v0.33.11/install.sh | sh</span><br><span class="line"><span class="meta">$</span> nvm install stable</span><br><span class="line"><span class="meta">#</span># install git</span><br><span class="line"><span class="meta">$</span> sudo yum install git</span><br><span class="line"><span class="meta">#</span># install hexo</span><br><span class="line"><span class="meta">$</span> npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="comment">## Step 1 install node.js with nvm</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="comment"># curl https://raw.github.com/creationix/nvm/v0.33.11/install.sh | sh</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> wget -qO- https://raw.github.com/creationix/nvm/v0.33.11/install.sh | sh</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> nvm install stable</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># install git</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo yum install git</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># install hexo</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm install -g hexo-cli</span></span><br></pre></td></tr></table></figure>
 
 <p>安装过程中可能会遇到一些问题，按照相应问题的描述进行解决即可。</p>
 <h3 id="1-2-Hexo-的配置"><a href="#1-2-Hexo-的配置" class="headerlink" title="1.2 Hexo 的配置"></a>1.2 Hexo 的配置</h3><p>安装 Hexo 完成后，创建一个文件夹并执行以下命令 Hexo 将会在指定文件夹中新建所需要的文件。</p>
@@ -1144,6 +1146,31 @@
   
   <script src="/js/scrollspy.js?v=7.3.0"></script><script src="/js/post-details.js?v=7.3.0"></script>
 
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'Wl0MFUr8GDL0iD0rre0tW0g9-gzGzoHsz',
+    appKey: '64z8doJMJbu17EYYozth1J4P',
+    placeholder: '支持 MarkDown， 请勿添加与本话题无关的评论！',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
 
 </body>
 </html>
