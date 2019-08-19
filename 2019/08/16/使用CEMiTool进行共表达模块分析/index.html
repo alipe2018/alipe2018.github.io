@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="使用 CEMiTools 进行共表达模块分析CMEiTools 链接：https://cemitool.sysbio.tools/   CEMiTool 是一款基于 WGCNA 但又有别于 WGCNA 的一个 R 软件包，可以实现共表达模块的自动识别。">
+<meta name="keywords" content="Bioinformatics,CEMiTool,WGCNA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用CEMiTool进行共表达模块分析">
+<meta property="og:url" content="http://alipe2018.github.io/2019/08/16/使用CEMiTool进行共表达模块分析/index.html">
+<meta property="og:site_name" content="小刘哥的笔记本">
+<meta property="og:description" content="使用 CEMiTools 进行共表达模块分析CMEiTools 链接：https://cemitool.sysbio.tools/   CEMiTool 是一款基于 WGCNA 但又有别于 WGCNA 的一个 R 软件包，可以实现共表达模块的自动识别。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/16/使用CEMiTool进行共表达模块分析/CEMiTool-1.png">
+<meta property="og:updated_time" content="2019-08-19T01:13:46.637Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用CEMiTool进行共表达模块分析">
+<meta name="twitter:description" content="使用 CEMiTools 进行共表达模块分析CMEiTools 链接：https://cemitool.sysbio.tools/   CEMiTool 是一款基于 WGCNA 但又有别于 WGCNA 的一个 R 软件包，可以实现共表达模块的自动识别。">
+<meta name="twitter:image" content="http://alipe2018.github.io/2019/08/16/使用CEMiTool进行共表达模块分析/CEMiTool-1.png">
+  <link rel="alternate" href="/atom.xml" title="小刘哥的笔记本" type="application/atom+xml">
+  <link rel="canonical" href="http://alipe2018.github.io/2019/08/16/使用CEMiTool进行共表达模块分析/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>使用CEMiTool进行共表达模块分析 | 小刘哥的笔记本</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小刘哥的笔记本</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Keep It Simple, Stupid !</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://alipe2018.github.io/2019/08/16/使用CEMiTool进行共表达模块分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alipe">
+      <meta itemprop="description" content="种地，学习，撸代码！">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小刘哥的笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">使用CEMiTool进行共表达模块分析
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-16 10:54:37" itemprop="dateCreated datePublished" datetime="2019-08-16T10:54:37+08:00">2019-08-16</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-19 09:13:46" itemprop="dateModified" datetime="2019-08-19T09:13:46+08:00">2019-08-19</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Bioinformatics/" itemprop="url" rel="index"><span itemprop="name">Bioinformatics</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/08/16/使用CEMiTool进行共表达模块分析/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/08/16/使用CEMiTool进行共表达模块分析/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="使用-CEMiTools-进行共表达模块分析"><a href="#使用-CEMiTools-进行共表达模块分析" class="headerlink" title="使用 CEMiTools 进行共表达模块分析"></a>使用 CEMiTools 进行共表达模块分析</h2><p>CMEiTools 链接：<a href="https://cemitool.sysbio.tools/" target="_blank" rel="noopener">https://cemitool.sysbio.tools/</a></p>
+<img src="/2019/08/16/使用CEMiTool进行共表达模块分析/CEMiTool-1.png" title="CEMiTool 软件主页">
+
+<p>CEMiTool 是一款基于 WGCNA 但又有别于 WGCNA 的一个 R 软件包，可以实现共表达模块的自动识别。</p>
+<a id="more"></a>
+
+<h3 id="1-数据文件准备"><a href="#1-数据文件准备" class="headerlink" title="1. 数据文件准备"></a>1. 数据文件准备</h3><h4 id="1-1-表达量文件"><a href="#1-1-表达量文件" class="headerlink" title="1.1 表达量文件"></a>1.1 表达量文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">           sample1   sample2   sample3   sample4</span><br><span class="line">gene1    13.061894 13.290272 13.360468 13.178729</span><br><span class="line">gene2     3.410819  3.164874  3.599792  3.400613</span><br><span class="line">gene3     6.326861  5.915121  6.341564  5.905167</span><br><span class="line">gene4     3.237749  3.362508  3.320674  3.365530</span><br><span class="line">gene5     3.980988  4.201731  4.235020  4.046716</span><br><span class="line">gene6     3.379857  3.229973  3.150274  3.196610</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-样本分组信息"><a href="#1-2-样本分组信息" class="headerlink" title="1.2 样本分组信息"></a>1.2 样本分组信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">	SampleName Class</span><br><span class="line">1   sample1    g0</span><br><span class="line">2   sample2    g0</span><br><span class="line">3   sample3    g0</span><br><span class="line">4   sample4    g1</span><br><span class="line">5   sample5    g1</span><br><span class="line">6   sample6    g1</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-3-基因注释文件"><a href="#1-3-基因注释文件" class="headerlink" title="1.3 基因注释文件"></a>1.3 基因注释文件</h4><p>基因注释文件需要提供 <code>gmt</code> 格式文件。</p>
+<h4 id="1-4-基因互作信息文件"><a href="#1-4-基因互作信息文件" class="headerlink" title="1.4 基因互作信息文件"></a>1.4 基因互作信息文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  gene1symbol gene2symbol</span><br><span class="line">1         DBH      REPIN1</span><br><span class="line">2      RBFOX2       HERC5</span><br><span class="line">3      ZNF460      CCDC22</span><br><span class="line">4     SNRNP40        OAZ3</span><br><span class="line">5       SRSF6        OAZ3</span><br><span class="line">6      SPTAN1       ARL8A</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-在线软件使用"><a href="#2-在线软件使用" class="headerlink" title="2. 在线软件使用"></a>2. 在线软件使用</h3><p>将准备好的文件上传至 <a href="https://cemitool.sysbio.tools/analysis" target="_blank" rel="noopener">https://cemitool.sysbio.tools/analysis</a> 网站进行在线分析。</p>
+<h3 id="3-软件本地使用"><a href="#3-软件本地使用" class="headerlink" title="3. 软件本地使用"></a>3. 软件本地使用</h3><p> CMEiTool 软件是一个 R 包，所以使用 R 语言安装载入后即可使用。</p>
+ <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">if</span> (!requireNamespace(<span class="string">"BiocManager"</span>, quietly = <span class="literal">TRUE</span>))</span><br><span class="line">    install.packages(<span class="string">"BiocManager"</span>)</span><br><span class="line"></span><br><span class="line">&gt; BiocManager::install(<span class="string">"CEMiTool"</span>)</span><br><span class="line">&gt; <span class="keyword">library</span>(<span class="string">"CEMiTool"</span>)</span><br></pre></td></tr></table></figure>
+
+
+<p> 软件包下载地址：<a href="https://www.bioconductor.org/packages/release/bioc/html/CEMiTool.html" target="_blank" rel="noopener">https://www.bioconductor.org/packages/release/bioc/html/CEMiTool.html</a></p>
+<p> 具体使用点击查看: <a href="https://www.bioconductor.org/packages/release/bioc/vignettes/CEMiTool/inst/doc/CEMiTool.html" target="_blank" rel="noopener">参考链接</a></p>
+ <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">library</span>(CEMiTool)</span><br><span class="line"></span><br><span class="line"><span class="comment">##</span></span><br><span class="line">setwd(<span class="string">"example/"</span>)</span><br><span class="line">rm(list = ls())</span><br><span class="line"><span class="comment">##</span></span><br><span class="line">expr &lt;- read.table(file = <span class="string">"cemitool-expression.tsv"</span>,header = <span class="literal">T</span>, sep = <span class="string">"\t"</span>, row.names = <span class="number">1</span>)</span><br><span class="line">sample_annot &lt;- read.delim(file = <span class="string">"cemitool-phenotypes.tsv"</span>, header = <span class="literal">T</span>, sep = <span class="string">"\t"</span>)</span><br><span class="line">gmt_in &lt;- read_gmt(fname = <span class="string">"cemitool-genesets.gmt"</span>)</span><br><span class="line"></span><br><span class="line">int_df &lt;- read.delim(file = <span class="string">"cemitool-interactions.tsv"</span>, header = <span class="literal">T</span>, sep = <span class="string">"\t"</span>)</span><br><span class="line"></span><br><span class="line">cem &lt;- cemitool(expr=expr, </span><br><span class="line">                annot=sample_annot,</span><br><span class="line">                gmt=gmt_in,</span><br><span class="line">                interactions=int_df, </span><br><span class="line">                filter_pval = <span class="number">0.05</span>, </span><br><span class="line">                min_ngen = <span class="number">30</span>, </span><br><span class="line">                apply_vst = <span class="literal">TRUE</span>, </span><br><span class="line">                verbose=<span class="literal">TRUE</span>, </span><br><span class="line">                filter = <span class="literal">TRUE</span>, </span><br><span class="line">                cor_method = <span class="string">"pearson"</span>,</span><br><span class="line">                network_type = <span class="string">"unsigned"</span>, </span><br><span class="line">                tom_type = <span class="string">"unsigned"</span>, </span><br><span class="line">                set_beta = <span class="literal">NULL</span>, </span><br><span class="line">                plot=<span class="literal">TRUE</span></span><br><span class="line">              )</span><br><span class="line"><span class="comment"># Create report as html file</span></span><br><span class="line">generate_report(cem, directory = <span class="string">"Report"</span>, output_format=<span class="string">"html_document"</span>)</span><br><span class="line"><span class="comment"># Write analysis results into files</span></span><br><span class="line">write_files(cem, directory=<span class="string">"Tables"</span>, force=<span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment"># Save all plots</span></span><br><span class="line">save_plots(cem, <span class="string">"all"</span>, directory=<span class="string">"Plots"</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-Docker-容器中使用-CEMiTool-软件"><a href="#4-Docker-容器中使用-CEMiTool-软件" class="headerlink" title="4. Docker 容器中使用 CEMiTool 软件"></a>4. Docker 容器中使用 CEMiTool 软件</h3><p>首先下载安装 docker，然后使用 <code>docker pull csblusp/cemitool</code> 命令将 CEMiTool 软件拖至本地。</p>
+<p>查看使用说明：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ docker run csblusp/cemitool -h</span><br><span class="line">CEMiTool - Co-Expression Modules identification Tool</span><br><span class="line"></span><br><span class="line">Usage: cemitool.R EXPRSFILE  --output=&lt;dir&gt; [--sample-annot=&lt;annot&gt; --samples-column=&lt;samplecol&gt; --class-column=&lt;classcol&gt; --no-filter (--filter-pval=&lt;p&gt;|--ngenes=&lt;ngenes&gt;) --vst --eps --network-type=&lt;nettype&gt; --tom-type=&lt;tomtype&gt; --interactions=&lt;inter&gt; --pathways=&lt;gmt&gt; --ora-pvalue=&lt;p&gt; --cor-method=&lt;cor&gt; --no-merge --rank-method --min-module-size=&lt;min&gt; --diss-thresh=&lt;thresh&gt; --center-func=&lt;fun&gt; --directed --verbose]</span><br><span class="line"></span><br><span class="line">Input:</span><br><span class="line">  EXPRSFILE                         a normalized expression file .tsv format</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  -h --<span class="built_in">help</span>                          show this <span class="built_in">help</span> message</span><br><span class="line">  --version                          show program version</span><br><span class="line">  -s &lt;annot&gt; --sample-annot=&lt;annot&gt;  sample annotation, must have a column with sample names and class</span><br><span class="line">  --samples-column=&lt;samplecol&gt;       the column name containing sample names <span class="keyword">in</span> template file [default: SampleName]</span><br><span class="line">  --class-column=&lt;classcol&gt;          the column name containing classes <span class="keyword">in</span> template file [default: Class]</span><br><span class="line">  -i &lt;int&gt; --interactions=&lt;int&gt;      gene interaction file, must have two columns</span><br><span class="line">  -p &lt;gmt&gt; --pathways=&lt;gmt&gt;          GMT file name (Gene Matrix Transposed format)</span><br><span class="line">  --ora-pvalue=&lt;p&gt;                   p-value cutoff to be used on over representation analysis [default: 0.05]</span><br><span class="line">  --no-filter                        does not filter the expression data.frame</span><br><span class="line">  --filter-pval=&lt;p&gt;                  p-value to be used <span class="keyword">in</span> the filtering step [default: 0.1]</span><br><span class="line">  --vst                              apply Variance Stabilizing Transformation</span><br><span class="line">  --ngenes=&lt;ngenes&gt;                  number of genes remaining after filtering</span><br><span class="line">  --eps=&lt;eps&gt;                        epsilon [default: 0.1]</span><br><span class="line">  -c &lt;cor&gt; --cor-method=&lt;cor&gt;        correlation method (spearman or pearson) [default: pearson]</span><br><span class="line">  --network-type=&lt;nettype&gt;           network <span class="built_in">type</span>, <span class="string">'signed'</span> or <span class="string">'unsigned'</span> [default: unsigned]</span><br><span class="line">  --tom-type=&lt;nettype&gt;               TOM <span class="built_in">type</span>, <span class="string">'signed'</span> or <span class="string">'unsigned'</span> [default: signed]</span><br><span class="line">  --no-merge                         does not merge related modules based on eigengene similarity</span><br><span class="line">  --rank-method                      rank method [default: mean]</span><br><span class="line">  --min-module-size=&lt;min&gt;            minimum module size [default: 30]</span><br><span class="line">  --diss-thresh=&lt;thresh&gt;             module merging correlation threshold <span class="keyword">for</span> eigengene similarity [default: 0.8]</span><br><span class="line">  --center-func=&lt;fun&gt;                metric used <span class="keyword">for</span> centering [default: mean]</span><br><span class="line">  --directed                         the interactions are directed</span><br><span class="line">  -o &lt;dir&gt; --output=&lt;dir&gt;            output directory</span><br><span class="line">  -v --verbose                       display progress messages</span><br><span class="line"></span><br><span class="line">Authors:</span><br><span class="line">  Pedro S T Russo - pedro.russo at usp.br</span><br><span class="line">  Gustavo R Ferreira - gustavo.rodrigues.ferreira at usp.br</span><br><span class="line">  Lucas E Cardozo - lucasecardozo at usp.br</span><br><span class="line">  Matheus C Burger - burger at usp.br</span><br><span class="line">  Thiago D C Hirata - thiagodch at gmail.com</span><br><span class="line">  Diogenes S Lima - diogenes.lima at usp.br</span><br><span class="line">  Fernando M Passos - fmarcon at usp.br</span><br><span class="line">  Raul A Carrasco</span><br><span class="line">  Melissa Lever - melissalever at gmail.com</span><br><span class="line">  Vinicius Maracaja-Coutinho</span><br><span class="line">  Helder I Nakaya - hnakaya at usp.br</span><br><span class="line"></span><br><span class="line">More information:</span><br><span class="line">  www.csbiology.com</span><br><span class="line">  Computational Systems Biology Laboratory</span><br><span class="line">  University of Sao Paulo, Brazil</span><br></pre></td></tr></table></figure>
+
+
+
+    </div>
+
+    
+    
+    
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="Alipe wechat" style="width: 200px; max-width: 100%;">
+  <div>扫码关注小刘哥订阅号！</div>
+</div>
+
+      
+        
+      
+        <div id="reward-container">
+  <div>谢谢您的赏识！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wepay.png" alt="Alipe 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="Alipe 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Bioinformatics/" rel="tag"># Bioinformatics</a>
+            
+              <a href="/tags/CEMiTool/" rel="tag"># CEMiTool</a>
+            
+              <a href="/tags/WGCNA/" rel="tag"># WGCNA</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/07/28/锤子手机Pro2刷机手记/" rel="next" title="锤子手机Pro2刷机笔记">
+                  <i class="fa fa-chevron-left"></i> 锤子手机Pro2刷机笔记
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/08/16/使用Hexo搭建个人博客/" rel="prev" title="使用Hexo搭建个人博客">
+                  使用Hexo搭建个人博客 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.png"
+      alt="Alipe">
+  <p class="site-author-name" itemprop="name">Alipe</p>
+  <div class="site-description motion-element" itemprop="description">种地，学习，撸代码！</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/alipe2018" title="GitHub &rarr; https://github.com/alipe2018" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:sxliulian2012@gmail.com" title="E-Mail &rarr; mailto:sxliulian2012@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://www.jianshu.com/u/c804c7dcaa2c" title="JianShu &rarr; https://www.jianshu.com/u/c804c7dcaa2c" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>JianShu</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://twitter.com/maize_liu" title="Twitter &rarr; https://twitter.com/maize_liu" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+    
+  </div>
+
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-CEMiTools-进行共表达模块分析"><span class="nav-text">使用 CEMiTools 进行共表达模块分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-数据文件准备"><span class="nav-text">1. 数据文件准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-在线软件使用"><span class="nav-text">2. 在线软件使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-软件本地使用"><span class="nav-text">3. 软件本地使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Docker-容器中使用-CEMiTool-软件"><span class="nav-text">4. Docker 容器中使用 CEMiTool 软件</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alipe</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a></div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script><script src="/js/post-details.js?v=7.3.0"></script>
+
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'Wl0MFUr8GDL0iD0rre0tW0g9-gzGzoHsz',
+    appKey: '64z8doJMJbu17EYYozth1J4P',
+    placeholder: '支持 MarkDown， 请勿添加与本话题无关的评论！',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>

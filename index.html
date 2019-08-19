@@ -231,6 +231,301 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://alipe2018.github.io/2019/08/19/小刘哥学生信系列一数据质控/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alipe">
+      <meta itemprop="description" content="种地，学习，撸代码！">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小刘哥的笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/19/小刘哥学生信系列一数据质控/" class="post-title-link" itemprop="url">小刘哥学生信系列一数据质控</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-19 09:52:45 / 修改时间：14:53:30" itemprop="dateCreated datePublished" datetime="2019-08-19T09:52:45+08:00">2019-08-19</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Bioinformatics/" itemprop="url" rel="index"><span itemprop="name">Bioinformatics</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="小刘哥学生信系列-—-从数据质控开始"><a href="#小刘哥学生信系列-—-从数据质控开始" class="headerlink" title="小刘哥学生信系列 — 从数据质控开始"></a>小刘哥学生信系列 — 从数据质控开始</h1><p>前面两章我们配置了基本的运行环境，也安装了一些基本的运行环境，今天我们就主要与大家分享一下生信分析的第一步： 数据质控</p>
+<p>对于我们经常接触的二代数据来说，不管是 DNA 还是转录组，下机数据一般都是给的我们 fastq 格式的原始数据。我们使用最经典的 fastqc 软件来查看数据的测序质量。</p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/08/19/小刘哥学生信系列一数据质控/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+      
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alipe">
+      <meta itemprop="description" content="种地，学习，撸代码！">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小刘哥的笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/19/不同过滤软件的比较/" class="post-title-link" itemprop="url">【生信分析】不同过滤软件的比较</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-19 09:16:15 / 修改时间：09:41:58" itemprop="dateCreated datePublished" datetime="2019-08-19T09:16:15+08:00">2019-08-19</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Bioinformatics/" itemprop="url" rel="index"><span itemprop="name">Bioinformatics</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1-起缘"><a href="#1-起缘" class="headerlink" title="1. 起缘"></a>1. 起缘</h2><p>小刘哥在分析拿到的 Small RNA 数据时发现不同的过滤软件对数据的过滤结果并不一样。由此我们想找到到底什么样的参数、哪款软件能满足我们 Small RNA 数据过滤的基本需求。抱着这样的目的我们做了下面的测试：<br>使用的数据是我们一个真实的玉米根系数据，使用 NextSeq500/NextSeq500AR SE50 进行的 Small RNA 测序。</p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/08/19/不同过滤软件的比较/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+      
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://alipe2018.github.io/2019/08/19/Hexo中图片处理正确姿势/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alipe">
+      <meta itemprop="description" content="种地，学习，撸代码！">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小刘哥的笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/19/Hexo中图片处理正确姿势/" class="post-title-link" itemprop="url">Hexo中图片处理正确姿势</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-19 08:40:59 / 修改时间：08:50:48" itemprop="dateCreated datePublished" datetime="2019-08-19T08:40:59+08:00">2019-08-19</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="如何引用图片"><a href="#如何引用图片" class="headerlink" title="如何引用图片"></a>如何引用图片</h1><p>在写文章时，常常有插入图片的需求。Hexo 有多种图片插入方式，可以将图片存放在本地引用或者将图片放在 CDN 上进行引用。</p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/08/19/Hexo中图片处理正确姿势/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+      
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://alipe2018.github.io/2019/08/17/使用LAI评估基因组组装质量/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -366,11 +661,19 @@
                 
               
 
-              <time title="创建时间：2019-08-17 11:36:52 / 修改时间：16:57:13" itemprop="dateCreated datePublished" datetime="2019-08-17T11:36:52+08:00">2019-08-17</time>
+              <time title="创建时间：2019-08-17 11:36:52" itemprop="dateCreated datePublished" datetime="2019-08-17T11:36:52+08:00">2019-08-17</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-19 08:51:35" itemprop="dateModified" datetime="2019-08-19T08:51:35+08:00">2019-08-19</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -514,6 +817,115 @@
           
             <div class="post-button text-center">
               <a class="btn" href="/2019/08/16/使用Hexo搭建个人博客/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+      
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://alipe2018.github.io/2019/08/16/使用CEMiTool进行共表达模块分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alipe">
+      <meta itemprop="description" content="种地，学习，撸代码！">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小刘哥的笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/16/使用CEMiTool进行共表达模块分析/" class="post-title-link" itemprop="url">使用CEMiTool进行共表达模块分析</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-16 10:54:37" itemprop="dateCreated datePublished" datetime="2019-08-16T10:54:37+08:00">2019-08-16</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-19 09:13:46" itemprop="dateModified" datetime="2019-08-19T09:13:46+08:00">2019-08-19</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Bioinformatics/" itemprop="url" rel="index"><span itemprop="name">Bioinformatics</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="使用-CEMiTools-进行共表达模块分析"><a href="#使用-CEMiTools-进行共表达模块分析" class="headerlink" title="使用 CEMiTools 进行共表达模块分析"></a>使用 CEMiTools 进行共表达模块分析</h2><p>CMEiTools 链接：<a href="https://cemitool.sysbio.tools/" target="_blank" rel="noopener">https://cemitool.sysbio.tools/</a></p>
+<img src="/2019/08/16/使用CEMiTool进行共表达模块分析/CEMiTool-1.png" title="CEMiTool 软件主页">
+
+<p>CEMiTool 是一款基于 WGCNA 但又有别于 WGCNA 的一个 R 软件包，可以实现共表达模块的自动识别。</p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/08/16/使用CEMiTool进行共表达模块分析/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -696,7 +1108,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -717,7 +1129,11 @@
         
           
         
-        <span class="site-state-item-count">3</span>
+          
+        
+          
+        
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -768,7 +1184,29 @@
         
           
         
-        <span class="site-state-item-count">18</span>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>

@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="1. 起缘小刘哥在分析拿到的 Small RNA 数据时发现不同的过滤软件对数据的过滤结果并不一样。由此我们想找到到底什么样的参数、哪款软件能满足我们 Small RNA 数据过滤的基本需求。抱着这样的目的我们做了下面的测试：使用的数据是我们一个真实的玉米根系数据，使用 NextSeq500/NextSeq500AR SE50 进行的 Small RNA 测序。">
+<meta name="keywords" content="fastqc,SOAPnuke,fastp,cutadapt,Trimmomatic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【生信分析】不同过滤软件的比较">
+<meta property="og:url" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/index.html">
+<meta property="og:site_name" content="小刘哥的笔记本">
+<meta property="og:description" content="1. 起缘小刘哥在分析拿到的 Small RNA 数据时发现不同的过滤软件对数据的过滤结果并不一样。由此我们想找到到底什么样的参数、哪款软件能满足我们 Small RNA 数据过滤的基本需求。抱着这样的目的我们做了下面的测试：使用的数据是我们一个真实的玉米根系数据，使用 NextSeq500/NextSeq500AR SE50 进行的 Small RNA 测序。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/76443262.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/69637800.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/69904062.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/70013827.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/70981385.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/77385366.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/74723572.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/76510157.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/77223398.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/79245808.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/80445443.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/80395773.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/80336221.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/33941336.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/34902344.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/35008783.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/50041826.png">
+<meta property="og:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/50081114.png">
+<meta property="og:updated_time" content="2019-08-19T01:41:58.596Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【生信分析】不同过滤软件的比较">
+<meta name="twitter:description" content="1. 起缘小刘哥在分析拿到的 Small RNA 数据时发现不同的过滤软件对数据的过滤结果并不一样。由此我们想找到到底什么样的参数、哪款软件能满足我们 Small RNA 数据过滤的基本需求。抱着这样的目的我们做了下面的测试：使用的数据是我们一个真实的玉米根系数据，使用 NextSeq500/NextSeq500AR SE50 进行的 Small RNA 测序。">
+<meta name="twitter:image" content="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/76443262.png">
+  <link rel="alternate" href="/atom.xml" title="小刘哥的笔记本" type="application/atom+xml">
+  <link rel="canonical" href="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>【生信分析】不同过滤软件的比较 | 小刘哥的笔记本</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小刘哥的笔记本</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Keep It Simple, Stupid !</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://alipe2018.github.io/2019/08/19/不同过滤软件的比较/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alipe">
+      <meta itemprop="description" content="种地，学习，撸代码！">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小刘哥的笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">【生信分析】不同过滤软件的比较
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-19 09:16:15 / 修改时间：09:41:58" itemprop="dateCreated datePublished" datetime="2019-08-19T09:16:15+08:00">2019-08-19</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Bioinformatics/" itemprop="url" rel="index"><span itemprop="name">Bioinformatics</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/08/19/不同过滤软件的比较/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/08/19/不同过滤软件的比较/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="1-起缘"><a href="#1-起缘" class="headerlink" title="1. 起缘"></a>1. 起缘</h2><p>小刘哥在分析拿到的 Small RNA 数据时发现不同的过滤软件对数据的过滤结果并不一样。由此我们想找到到底什么样的参数、哪款软件能满足我们 Small RNA 数据过滤的基本需求。抱着这样的目的我们做了下面的测试：<br>使用的数据是我们一个真实的玉米根系数据，使用 NextSeq500/NextSeq500AR SE50 进行的 Small RNA 测序。</p>
+<a id="more"></a>
+
+<h2 id="2-原始数据测序质量"><a href="#2-原始数据测序质量" class="headerlink" title="2. 原始数据测序质量"></a>2. 原始数据测序质量</h2><p>我们首先使用 fastqc 对数据的测序质量来个基本的了解。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastqc sample.fq.gz</span><br></pre></td></tr></table></figure>
+
+<p>生成网页报告如下：</p>
+<img src="/2019/08/19/不同过滤软件的比较/76443262.png" title="网页报告">
+
+<p>数据统计发现共有原始数据 20,402,165 条，既 20.4M 原始reads。原始数据的 GC含量为 54%，测序长度为 50bp，数据质量格式为 Sanger / Illumina 1.9 格式 既  phred33  格式。</p>
+<p>数据质量如下图：</p>
+<img src="/2019/08/19/不同过滤软件的比较/69637800.png" title="数据质量图">
+
+<p>整体测序质量高，绝大部分碱基质量分数在 30 分以上，既测序的准确率在 99.9% 以上。</p>
+<p>没有测出的碱基（N碱基）几乎为 0：</p>
+<img src="/2019/08/19/不同过滤软件的比较/69904062.png" title="含 N 碱基">
+
+<p>重复序列占总序列的 21.09% ，这是因为 Small RNA 测序文库片段较短，因此重复性较高。</p>
+<img src="/2019/08/19/不同过滤软件的比较/70013827.png" title="重复序列比值">
+
+<p>我们发现测序数据中主要包含了 Illumina Small RNA 3’ Adapter：</p>
+<img src="/2019/08/19/不同过滤软件的比较/70981385.png" title="Illumina 接头序列">
+
+<p>接下来，我们就使用不用的软件对这个数据进行低质量数据过滤，并比较其过滤结果。</p>
+<h2 id="3-数据过滤标准"><a href="#3-数据过滤标准" class="headerlink" title="3. 数据过滤标准"></a>3. 数据过滤标准</h2><p>考虑到经常分析的 Small RNA 的有效长度基本我为 18 - 35 nt， 我们统一使用以下的过滤标准：</p>
+<ol>
+<li>去除低质量 reads（ sQ &lt;= 20 的碱基数占整个 Reads 的 40% 以上） </li>
+<li>去除 N 碱基比例大于 5 的 Reads </li>
+<li>去除含有 5‘ 接头污染的 reads </li>
+<li>去除没有 3‘ 接头的序列 </li>
+<li>去除插入片段缺失的 reads </li>
+<li>去除 3‘ 接头 </li>
+<li>去除 Ploy/T/C/G 的序列</li>
+<li>去除过长以及过短的 Reads （18 &lt;= length &lt;= 35）</li>
+</ol>
+<h2 id="4-使用-SOAPnuke-进行过滤"><a href="#4-使用-SOAPnuke-进行过滤" class="headerlink" title="4. 使用 SOAPnuke 进行过滤"></a>4. 使用 SOAPnuke 进行过滤</h2><p>SOAPnuke 是华大的老牌软件了，有专门过滤 small RNA 序列的模块，下载地址：<a href="https://github.com/BGI-flexlab/SOAPnuke" target="_blank" rel="noopener">https://github.com/BGI-flexlab/SOAPnuke</a> 安装过程参照其说明文档。<br>具体参数使用以下命令查看：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SOAPnuke filtersRNA -h</span><br></pre></td></tr></table></figure>
+
+<p>{ %  asset_img 72829788.png SOAPnuke 命令 % }</p>
+<p>使用以下命令进行过滤：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SOAPnuke filtersRNA --fq1 sample.fq.gz --cleanFq1 Soap.Clean.fq.gz  --trimFq1 trim.sample.fq.gz  --outDir ./ --outFileType fastq --<span class="built_in">log</span> SOAPnukeFilter.log --adapter1 GTTCAGAGTTCTACAGTCCGACGATC --adapter2 TGGAATTCTCGGGTGCCAAGG --seqType 1 --ada_trim --adaRCtg 6 --adaRAr 0.8 --adaRMa 5 --adaREr 0.4 --lowQual 20 --qualRate 0.4 --nRate 0.05 --mean 20 --polyA 0.4 --polyX 10 --index --thread 8 --qualSys 2 --outQualSys 2 --maxReadLen 35 --minReadLen 18</span><br></pre></td></tr></table></figure>
+
+<p>DELL R730xd 的二手服务器主机，E5-2678 v3 处理器（24核，48线程），我使用了 8 个线程，花费 1分 51秒 完成了过滤，同时生成了多个统计文件：</p>
+<img src="/2019/08/19/不同过滤软件的比较/77385366.png" title="过滤统计文件一">
+
+<img src="/2019/08/19/不同过滤软件的比较/74723572.png" title="过滤统计文件二">
+
+<p>过滤完成后还剩余 9.93 M 的 Reads，过滤掉一半多。<br>我们还是使用 fastqc 软件再直观的查看一下过滤后的 Clean Reads 数据质量。</p>
+<img src="/2019/08/19/不同过滤软件的比较/76510157.png" title="Clean Reads 质量">
+
+<p>基本将低质量数据全部过滤掉了,遗憾的地方是，并没有将数据中的 接头序列剪切掉。</p>
+<img src="/2019/08/19/不同过滤软件的比较/77223398.png" title="接头序列">
+
+<p>同时我们测试了不指定 Adapter 序列运行程序，发现程序对接头序列识别差的很，不得已，只有保留指定接头序列参数。</p>
+<h2 id="5-使用-fastp-软件进行过滤"><a href="#5-使用-fastp-软件进行过滤" class="headerlink" title="5. 使用 fastp 软件进行过滤"></a>5. 使用 fastp 软件进行过滤</h2><p>fastp 软件是海普洛斯公司研发团队开发的一个快速的过滤工具，下载地址：<a href="https://github.com/OpenGene/fastp" target="_blank" rel="noopener">https://github.com/OpenGene/fastp</a><br>我使用 conda 安装了该软件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install fastp</span><br></pre></td></tr></table></figure>
+
+<p>由于使用了指定的 Adapter 序列，导致运行结果严重失真，经测试发现 fastp 软件对单端数据默认只识别 RA3‘ 接头序列。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastp --in1 ../sample.fq.gz --out1 fastp.Clean.fq.gz --adapter_sequence TGGAATTCTCGGGTGCCAAGG --trim_poly_g --poly_g_min_len 10 --trim_poly_x --poly_x_min_len 10 --cut_window_size 5 --cut_mean_quality 20 --qualified_quality_phred 15 --unqualified_percent_limit 40 --n_base_limit 1 --length_required 18 --length_limit 35 --json fastp.Clean.json --html fastp.Clean.html --thread 8</span><br></pre></td></tr></table></figure>
+
+<p>用时 66 秒, 结果如下：</p>
+<img src="/2019/08/19/不同过滤软件的比较/79245808.png" title="fastp 软件运行结果">
+
+<p>可以看到过滤完后还剩余 9.92M 的 Clean Reads，而且结果也是切好的数据。比 SOAPnuke 软件切掉的数据少一些。</p>
+<p>然后我们使用不加 adapter 参数的命令重新过滤，运行时间：64 秒，同样的，没有识别到 Adpter 序列，把长度大于 35 bp的序列都过滤掉了，因此我们只有保留接头序列参数。</p>
+<p>fastqc 对 过滤后的 clean Reads 进行检验：发现基本也将低质量数据过滤完全了，并且接头也去除干净了。</p>
+<img src="/2019/08/19/不同过滤软件的比较/80445443.png" title="fastp 软件运行结果一">
+<img src="/2019/08/19/不同过滤软件的比较/80395773.png" title="fastp 软件运行结果二">
+<img src="/2019/08/19/不同过滤软件的比较/80336221.png" title="fastp 软件运行结果三">
+
+
+<h2 id="6-使用-cutadapt-软件进行过滤"><a href="#6-使用-cutadapt-软件进行过滤" class="headerlink" title="6. 使用 cutadapt 软件进行过滤"></a>6. 使用 cutadapt 软件进行过滤</h2><p>cutadapt 是一款经典的测序数据过滤软件了，基于 python 编写的。<br>使用 conda 进行安装：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install cutadapt</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后使用如下命令进行过滤：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cutadapt -a TGGAATTCTCGGGTGCCAAGG -j 8 -o cutadapt.Clean.fq.gz -m 18 -M 35 --max-n 2 --discard-untrimmed ../sample.fq.gz</span><br></pre></td></tr></table></figure>
+
+<img src="/2019/08/19/不同过滤软件的比较/33941336.png" title="cutadapt-1">
+
+<p>同样的 8 线程，用时46.14 秒，过滤完成后保留了 9.99M 的 Clean Reads。</p>
+<p>同样的，我们使用 fastqc 对过滤后的数据进行查看：</p>
+<img src="/2019/08/19/不同过滤软件的比较/34902344.png" title="cutadapt-2">
+<img src="/2019/08/19/不同过滤软件的比较/35008783.png" title="cutadapt-3">
+
+<p>接头基本过滤干净了。</p>
+<h2 id="7-使用-Trimmomatic-进行过滤"><a href="#7-使用-Trimmomatic-进行过滤" class="headerlink" title="7. 使用 Trimmomatic 进行过滤"></a>7. 使用 Trimmomatic 进行过滤</h2><p>Trimmomatic 发表的文章至今已被引用了 6784 次，是一个广受欢迎的 Illumina 平台数据过滤工具。下载地址: <a href="http://www.usadellab.org/cms/index.php?page=trimmomatic" target="_blank" rel="noopener">http://www.usadellab.org/cms/index.php?page=trimmomatic</a><br>我们安装还是使用 conda ：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install trimmomatic</span><br></pre></td></tr></table></figure>
+
+<p>我们使用一下命令进行过滤：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trimmomatic SE -threads 8 -phred33 -trimlog trim.log -summary trim.stat ../sample.fq.gz Trimmomatic.Clean.fq.gz ILLUMINACLIP:/MaizeShen/liupeng/TMP/Filter/adapter.txt:2:30:10 LEADING:13 TRAILING:13 SLIDINGWINDOW:5:20 MINLEN:18 TOPHRED33</span><br></pre></td></tr></table></figure>
+
+<p>fastqc 检测结果如下：</p>
+<img src="/2019/08/19/不同过滤软件的比较/50041826.png" title="Trimmomatic-1">
+<img src="/2019/08/19/不同过滤软件的比较/50081114.png" title="Trimmomatic-2">
+
+<p>其结果也无法将接头直接去掉。</p>
+<p>综合考虑，我们还是使用 fastp 软件进行过滤。</p>
+
+    </div>
+
+    
+    
+    
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="Alipe wechat" style="width: 200px; max-width: 100%;">
+  <div>扫码关注小刘哥订阅号！</div>
+</div>
+
+      
+        
+      
+        <div id="reward-container">
+  <div>谢谢您的赏识！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wepay.png" alt="Alipe 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.jpg" alt="Alipe 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/fastqc/" rel="tag"># fastqc</a>
+            
+              <a href="/tags/SOAPnuke/" rel="tag"># SOAPnuke</a>
+            
+              <a href="/tags/fastp/" rel="tag"># fastp</a>
+            
+              <a href="/tags/cutadapt/" rel="tag"># cutadapt</a>
+            
+              <a href="/tags/Trimmomatic/" rel="tag"># Trimmomatic</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/08/19/Hexo中图片处理正确姿势/" rel="next" title="Hexo中图片处理正确姿势">
+                  <i class="fa fa-chevron-left"></i> Hexo中图片处理正确姿势
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/08/19/小刘哥学生信系列一数据质控/" rel="prev" title="小刘哥学生信系列一数据质控">
+                  小刘哥学生信系列一数据质控 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.png"
+      alt="Alipe">
+  <p class="site-author-name" itemprop="name">Alipe</p>
+  <div class="site-description motion-element" itemprop="description">种地，学习，撸代码！</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/alipe2018" title="GitHub &rarr; https://github.com/alipe2018" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:sxliulian2012@gmail.com" title="E-Mail &rarr; mailto:sxliulian2012@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://www.jianshu.com/u/c804c7dcaa2c" title="JianShu &rarr; https://www.jianshu.com/u/c804c7dcaa2c" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>JianShu</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://twitter.com/maize_liu" title="Twitter &rarr; https://twitter.com/maize_liu" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+    
+  </div>
+
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-起缘"><span class="nav-text">1. 起缘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-原始数据测序质量"><span class="nav-text">2. 原始数据测序质量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-数据过滤标准"><span class="nav-text">3. 数据过滤标准</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-使用-SOAPnuke-进行过滤"><span class="nav-text">4. 使用 SOAPnuke 进行过滤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-使用-fastp-软件进行过滤"><span class="nav-text">5. 使用 fastp 软件进行过滤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-使用-cutadapt-软件进行过滤"><span class="nav-text">6. 使用 cutadapt 软件进行过滤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-使用-Trimmomatic-进行过滤"><span class="nav-text">7. 使用 Trimmomatic 进行过滤</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alipe</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a></div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script><script src="/js/post-details.js?v=7.3.0"></script>
+
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'Wl0MFUr8GDL0iD0rre0tW0g9-gzGzoHsz',
+    appKey: '64z8doJMJbu17EYYozth1J4P',
+    placeholder: '支持 MarkDown， 请勿添加与本话题无关的评论！',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>
