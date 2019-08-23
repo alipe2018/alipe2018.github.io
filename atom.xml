@@ -181,6 +181,39 @@
   </entry>
   
   <entry>
+    <title>大刍草等位基因提高玉米耐密性状</title>
+    <link href="http://alipe2018.github.io/2019/08/16/%E5%A4%A7%E5%88%8D%E8%8D%89%E7%AD%89%E4%BD%8D%E5%9F%BA%E5%9B%A0%E6%8F%90%E9%AB%98%E7%8E%89%E7%B1%B3%E8%80%90%E5%AF%86%E6%80%A7%E7%8A%B6/"/>
+    <id>http://alipe2018.github.io/2019/08/16/大刍草等位基因提高玉米耐密性状/</id>
+    <published>2019-08-16T05:08:37.000Z</published>
+    <updated>2019-08-23T04:54:40.622Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;【文献解读】大刍草等位基因减小玉米叶夹角提高玉米密植产量&quot;&gt;&lt;a href=&quot;#【文献解读】大刍草等位基因减小玉米叶夹角提高玉米密植产量&quot; class=&quot;headerlink&quot; title=&quot;【文献解读】大刍草等位基因减小玉米叶夹角提高玉米密植产量&quot;&gt;&lt;/a&gt;【文献解读】大刍草等位基因减小玉米叶夹角提高玉米密植产量&lt;/h1&gt;&lt;p&gt;本文发表在 Science 主刊, 是国内玉米领域首篇 CNS 主刊级别的文章了, 由中国农大田丰老师课题组领衔出演。博士生田金歌和王成龙为共同一作合伙完成。&lt;/p&gt;
+&lt;p&gt;同期 Science 还发表了评论文章 &lt;a href=&quot;https://science.sciencemag.org/content/365/6454/640&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://science.sciencemag.org/content/365/6454/640&lt;/a&gt;, 国内严建兵老师也对此文章进行了热点评论, 认为该文章是理论应用与实践的典型案例。&lt;/p&gt;
+&lt;h2 id=&quot;1-摘要&quot;&gt;&lt;a href=&quot;#1-摘要&quot; class=&quot;headerlink&quot; title=&quot;1. 摘要&quot;&gt;&lt;/a&gt;1. 摘要&lt;/h2&gt;&lt;p&gt;叶夹角是决定玉米植株紧凑程度的主要性状, 直接影响玉米群体冠层截光能力和群体光能利用率。叶夹角较小的玉米品种, 群体上部透光率高, 群体中下部叶片可处于较好的光照状态下, 便于叶片充分高效利用光能, 因而可以容纳更大密度的种植群体, 获得更高的群体产量。田丰教授课题组利用一套由玉米自交系 (W22) 与玉米野生种大刍草 (CIMMT 8759) 为亲本杂交衍生得到的渗入系群体, 对叶夹角进行了 QTL 定位分析, 并对位于玉米第1、2染色体上的两个主效 QTL UPA1 (Upright Plant Architecture1) 和 UPA2 进行了精细定位和克隆。研究发现, UPA2 的功能变异是一个 2bp 核苷酸插入/缺失, 其作为 cis 变异调控下游9.5Kb 的 B3 转录因子 ZmRAVL1 的表达；UPA1 的功能基因是参与油菜素内酯 (BR) 合成途径的基因 brd1。功能分析发现, 大刍草UPA2等位基因具有与玉米叶片发育基因DRL1更强的结合能力, DRL1可与玉米无叶舌基因LG1互作并抑制LG1对ZmRAVL1的激活作用, 导致下游基因brd1的表达下调, 进而降低叶环处内源BR水平, 影响叶耳细胞的增殖, 最终导致叶夹角减小, 株型趋于紧凑。&lt;/p&gt;
+&lt;img src=&quot;/2019/08/16/大刍草等位基因提高玉米耐密性状/maize-fig1.png&quot; title=&quot;文章截图&quot;&gt;
+
+&lt;!--![文章截图](大刍草等位基因提高玉米耐密性状/maize-fig1.png)--&gt;
+    
+    </summary>
+    
+      <category term="Reference" scheme="http://alipe2018.github.io/categories/Reference/"/>
+    
+    
+      <category term="Genome" scheme="http://alipe2018.github.io/tags/Genome/"/>
+    
+      <category term="Maize" scheme="http://alipe2018.github.io/tags/Maize/"/>
+    
+      <category term="Bioinformation" scheme="http://alipe2018.github.io/tags/Bioinformation/"/>
+    
+      <category term="Read" scheme="http://alipe2018.github.io/tags/Read/"/>
+    
+      <category term="Gene" scheme="http://alipe2018.github.io/tags/Gene/"/>
+    
+  </entry>
+  
+  <entry>
     <title>使用CEMiTool进行共表达模块分析</title>
     <link href="http://alipe2018.github.io/2019/08/16/%E4%BD%BF%E7%94%A8CEMiTool%E8%BF%9B%E8%A1%8C%E5%85%B1%E8%A1%A8%E8%BE%BE%E6%A8%A1%E5%9D%97%E5%88%86%E6%9E%90/"/>
     <id>http://alipe2018.github.io/2019/08/16/使用CEMiTool进行共表达模块分析/</id>
