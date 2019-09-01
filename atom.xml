@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://alipe2018.github.io/"/>
-  <updated>2019-08-19T06:53:30.817Z</updated>
+  <updated>2019-09-01T07:23:13.577Z</updated>
   <id>http://alipe2018.github.io/</id>
   
   <author>
@@ -15,6 +15,62 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>植物科学面临的100个重要问题</title>
+    <link href="http://alipe2018.github.io/2019/08/25/%E6%A4%8D%E7%89%A9%E7%A7%91%E5%AD%A6%E9%9D%A2%E4%B8%B4%E7%9A%84100%E4%B8%AA%E9%87%8D%E8%A6%81%E9%97%AE%E9%A2%98/"/>
+    <id>http://alipe2018.github.io/2019/08/25/植物科学面临的100个重要问题/</id>
+    <published>2019-08-25T00:59:59.000Z</published>
+    <updated>2019-09-01T07:23:13.577Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;植物科学面临的100个重要问题&quot;&gt;&lt;a href=&quot;#植物科学面临的100个重要问题&quot; class=&quot;headerlink&quot; title=&quot;植物科学面临的100个重要问题&quot;&gt;&lt;/a&gt;植物科学面临的100个重要问题&lt;/h1&gt;&lt;p&gt;这是 2011 年一批植物科学家通过邮件等方式提交、统计并编制出了当时植物科学面临的 100 个重要问题列表。时间已经过了快 9 年了，现在回顾看看，不知道有多少问题得到了解决，希望看到此文人能抽空思考一下，这几年自己的工作为植物科学研究作出了哪些有效的贡献。&lt;/p&gt;
+&lt;img src=&quot;/2019/08/25/植物科学面临的100个重要问题/fig-01.png&quot; title=&quot;New Phtologist&quot;&gt;
+
+&lt;!--![](/Users/alipe/Documents/Hexo/source/_posts/植物科学面临的100个重要问题/fig-01.png)--&gt;
+    
+    </summary>
+    
+      <category term="Reference" scheme="http://alipe2018.github.io/categories/Reference/"/>
+    
+    
+      <category term="Plant" scheme="http://alipe2018.github.io/tags/Plant/"/>
+    
+      <category term="Science" scheme="http://alipe2018.github.io/tags/Science/"/>
+    
+      <category term="Review" scheme="http://alipe2018.github.io/tags/Review/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>转录组这十年</title>
+    <link href="http://alipe2018.github.io/2019/08/24/%E8%BD%AC%E5%BD%95%E7%BB%84%E8%BF%99%E5%8D%81%E5%B9%B4/"/>
+    <id>http://alipe2018.github.io/2019/08/24/转录组这十年/</id>
+    <published>2019-08-24T14:21:23.000Z</published>
+    <updated>2019-09-01T07:29:04.414Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;转录组这十年&quot;&gt;&lt;a href=&quot;#转录组这十年&quot; class=&quot;headerlink&quot; title=&quot;转录组这十年&quot;&gt;&lt;/a&gt;转录组这十年&lt;/h1&gt;&lt;p&gt;今天解读的文献是发表在 Nature Reviews Genetics 上的一篇综述文章 《RNA sequencing: the teenage years》。&lt;/p&gt;
+&lt;p&gt;在过去的十多年中，RNA 测序技术已经成为在全转录组范围内分析差异基因表达和 mRNAs 差异可变剪接的重要工具。随着二代测序技术的发展，RNA-seq 技术也在不断发展。现在，RNA-seq 已经被用于研究 RNA 生物学的许多方面，如单细胞基因表达、翻译和 RNA 结构等。&lt;/p&gt;
+&lt;p&gt;同时，RNA-seq 的其它应用也在开发中，例如空间转录组 (Spatialomics)。新的长读长和 RNA 直接测序技术以及用于数据分析的计算工具的整合有助于人们更全面地理解 RNA。&lt;/p&gt;
+&lt;img src=&quot;/2019/08/24/转录组这十年/RNA-fig0.png&quot; title=&quot;Nature Reviews Genetics&quot;&gt;
+
+&lt;!--![](/Users/alipe/Documents/Hexo/source/_posts/转录组这十年/RNA-fig0.png)--&gt;
+    
+    </summary>
+    
+      <category term="Review" scheme="http://alipe2018.github.io/categories/Review/"/>
+    
+    
+      <category term="Reference" scheme="http://alipe2018.github.io/tags/Reference/"/>
+    
+      <category term="RNASeq" scheme="http://alipe2018.github.io/tags/RNASeq/"/>
+    
+      <category term="DGE" scheme="http://alipe2018.github.io/tags/DGE/"/>
+    
+  </entry>
   
   <entry>
     <title>小刘哥学生信系列一数据质控</title>
